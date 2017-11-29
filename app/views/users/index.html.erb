@@ -1,26 +1,25 @@
 <div class="body">
 	<div class="container">
-		<p id="notice"><%= notice %></p>
 		<div class="row">
 			<div class="col-xs-3">
 				<h2> User info</h2>
-				<%= attachment_image_tag @book.user, :profile_image, :fill, 100, 100, format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
+				<%= attachment_image_tag current_user, :profile_image, :fill, 100, 100, format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
 				<table class="table">
 					<tbody>
 						<tr></tr>
 						<tr>
 							<th>name</th>
-							<td><%= @book.user.name %></td>
+							<th><%= current_user.name %></th>
 						</tr>
 						<tr>
 							<th>introduction</th>
-							<td><%= @book.user.intro %></td>
+							<th><%= current_user.intro %></th>
 						</tr>
 					</tbody>
 				</table>
 				<div class="row">
 					<% if @user == current_user %>
-					<%= link_to "", edit_user_path, class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench" %>
+					<%= link_to "", edit_user_path(current_user), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench" %>
 					<% end %>
 				</div>
 				<h2> New book</h2>
@@ -31,7 +30,7 @@
 					</div>
 					<div class="field row">
 						<label for="book_opinon">Opinion</label>
-						<%= f.text_area :book_opinon, class: "col-xs-12" %>
+						<%= f.text_area :book_opinion, class: "col-xs-12" %>
 					</div>
 					<div class="actions row">
 						<%= f.submit 'Create Book', class: "btn btn-primary col-xs-12" %>
@@ -39,17 +38,23 @@
 				<% end %>
 			</div>
 			<div class="col-xs-9">
-				<h2>Book detail</h2>
+				<h2>Users</h2>
 				<table class="table table-hover table-inverse">
-					<tbody>
+					<thead>
 						<tr>
-							<td><%= attachment_image_tag @book.user, :profile_image, :fill, 100, 100, format: 'jpeg', fallback: "no_image.jpg" %><br>
-								<%= @book.user.name %></td>
-							<td><%= @book.title %></td>
-							<td><%= @book.book_opinion %></td>
-							<td><%= link_to 'Edit', edit_book_path(@book.id) %></td>
-							<td><%= link_to 'Destroy', book_path(@book.id), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn-sm btn-danger" %></td>
+							<th>image</th>
+							<th>name</th>
+							<th colspan="3"></th>
 						</tr>
+					</thead>
+					<tbody>
+						<% @users.each do |user| %>
+							<tr>
+								<td><%= attachment_image_tag user, :profile_image, :fill, 100, 100, format: 'jpeg', fallback: "no_image.jpg" %></td>
+								<td><%= user.name %></td>
+								<td><%= link_to 'Show', user %></td>
+							</tr>
+						<% end %>
 					</tbody>
 				</table>
 			</div>
